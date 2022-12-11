@@ -14,7 +14,8 @@ body{
     color: #7A7C80;
 
 }
-h1{
+h1,.white{
+
       color: #fff;
 }
 
@@ -97,7 +98,7 @@ a{
     }
     .section-1{
         padding:0;
-        padding-top: 5rem;
+        padding-top: 0.5rem;
     }
     .section-2{
         padding: 0;
