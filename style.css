@@ -14,6 +14,9 @@ body{
     color: #7A7C80;
 
 }
+h1{
+      color: #fff;
+}
 
 h2,.white{
     color: #fff;
@@ -25,7 +28,7 @@ a{
 }
 /* section 1 */
 .section-1{
-    padding-top: 40vh;
+    padding-top: 30vh;
     text-align: center;
 }
 
