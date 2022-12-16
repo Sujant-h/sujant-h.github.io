@@ -1,0 +1,281 @@
+:root {
+  --primary-color: #135a8f;  /*dunkelblau*/
+  --secondary-color:#1a69a3; /*hellblau*/
+  --white:#ffffff;
+  --black:#000000;
+  --light-black:#000000;
+}
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+
+}
+
+header {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  padding-left: 4px;
+  padding-right: 4px;
+  background-color: var(--primary-color);
+  width: 100%;
+  height:40px;
+    border-radius: 0 0 12px 12px;
+}
+
+
+#myUL {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1.2em;
+
+}
+
+#myInput{
+  font-weight: bold;
+}
+
+
+#myUL li a:hover:not(.header) {
+  background-color: #eee;
+}
+
+.searchBox{
+        display: flex;
+        justify-content: center;
+         width: 100%;
+         padding-top: 3px;
+         padding-left: 5px;
+         padding-right: 5px;
+}
+
+.searchTerm {
+ border: none;
+ border-right: none;
+ padding: 5px;
+ height: 30px;
+ text-align:left;
+  border-radius: 12px 0 0 12px;
+ background-color: white;
+ outline: none;
+  margin: auto 0;
+}
+
+.searchTerm:focus {
+background-color: #061c2d;
+color: white;
+border: 1px solid white;
+}
+
+.btn-custom{
+  width: 30px;
+   height: 30px;
+   border: 1px solid white;
+   background: var(--primary-color);
+   color: #fff;
+   border-radius: 0 12px 12px 0;
+   cursor: pointer;
+}
+
+
+.none{
+  display: none;
+}
+
+.table {
+  padding-top: 50px;
+  font-size: 4.5vw;
+
+}
+
+
+
+.searchTerm {
+  width: 100%;
+}
+
+.abstand{
+  height: 40px;
+
+
+}
+
+.btn-row {
+  width: 100%;
+}
+
+.btn-group {
+
+  width: 100%;
+
+}
+
+.btn-group button {
+
+padding-top:10px; /* Some padding */
+padding-bottom: 10px;
+  border-radius: 12px;
+  color: white ;
+  background-color: #135a8f;
+  transition: all .25s ease-in;
+  outline: none;;
+  margin: 1%;
+
+}
+
+
+
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+
+#myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 1.5%;
+  right: 1.5%;
+  z-index: 99;
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color:var(--primary-color); /* Set a background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 5px; /* Some padding */
+  border-radius: 50px; /* Rounded corners */
+  font-size: 20px; /* Increase font size */
+
+}
+
+.arrow-up {
+  height: auto;
+  width:auto;
+}
+
+
+.first-row {
+  text-align: center;
+  font-weight: bold;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #e3e7e5;
+}
+
+
+@media only screen and (min-width: 361px) {
+
+  header {
+    padding: 0 4px;
+  }
+
+.btn-custom{
+  width: 30px;
+   height: 30px;
+   border: 1px solid white;
+   background: #135a8f;
+   color: #fff;
+   border-radius: 0 5px 5px 0;
+   cursor: pointer;
+}
+}
+
+
+
+@media only screen and (min-width: 600px) {
+
+  .table {
+     margin: auto;
+     width: 70% !important;
+         font-size: 18px;
+  }
+  header {
+    padding: 0 60px;
+    height: 45px;
+  }
+
+  .abstand{
+    height: 45px;
+  }
+
+  .searchTerm {
+    height: 35px;
+    width: 90%;
+    text-align: center;
+    font-size: 18px;
+  }
+
+.btn-group {
+  width: 70% !important;
+}
+  .btn-custom{
+    width: 40px;
+     height: 35px;
+     border: 1px solid white;
+
+  }
+
+  .pfeil {
+    display: none;
+  }
+}
+
+
+@media only screen and (min-width: 1000px) {
+  .table {
+     margin: auto;
+     width: 50% !important;
+         font-size: 18px;
+  }
+
+  .btn-group {
+    width: 50% !important;
+  }
+
+  .searchTerm {
+    width: 90%;
+  }
+
+  header {
+    padding: 0 100px;
+  }
+}
+
+
+@media only screen and (min-width: 1600px) {
+  .table {
+     margin: auto;
+     width: 30% !important;
+  }
+
+
+  .searchTerm {
+    width: 50%;
+    height:40px;
+  }
+
+  header {
+    padding: 0 120px;
+    height:50px;
+  }
+
+  .abstand {
+    height: 50px;
+  }
+
+  .btn-custom{
+     height: 40px;
+  }
+
+}

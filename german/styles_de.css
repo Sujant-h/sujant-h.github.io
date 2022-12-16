@@ -1,0 +1,131 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  height:100vh;
+  margin:0;
+  hyphens: none;
+  background: rgb(255,255,255);
+  background: linear-gradient(0deg, rgba(255,255,255,1) 21%, rgba(180,194,214,1) 100%);
+
+
+}
+
+
+header{
+  height:auto;
+
+}
+
+
+
+.header-main {
+  position: realtive;
+  background-color: #135a8f;
+  text-align: center;
+  color: white;
+  width: 100%;
+  height:auto;
+  padding-bottom: 0.50%;
+  padding-top: 0.25%;
+      border-radius: 0 0 12px 12px;
+}
+
+
+
+
+
+.header-main h1 {
+  font-size: 5.0vw;
+  font-weight: 600;
+}
+
+.container-main{
+    background-color: #f1f1f1;
+}
+
+.main {
+padding-top: 5px;
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 10px;
+font-size: 4.5vw;
+background-color: white;
+border-radius: 12px;
+
+
+}
+
+.main p{
+  display: none;
+}
+
+
+.br-first {
+  display: none;
+}
+
+@media only screen and (min-width: 600px) {
+
+  .header-main h1 {
+    font-size: 3.5vw;
+      font-weight: 600;
+  }
+
+  .main {
+    display: flex;
+    justify-content: center;
+    font-size: 3.0vw;
+  }
+
+
+  .main-big h1 {
+    font-size: 3.0vw;
+    text-align: center;
+  }
+
+}
+
+
+@media only screen and (min-width: 1000px) {
+
+  .main{
+    padding-bottom: 50px;
+    font-size: 2.0vw;
+    display: flex
+    align-items: center;
+  }
+  .header-main h1{
+    font-size: 2.0vw;
+  }
+
+  .main p{
+    display: block;
+    padding-left: 10%;
+  }
+
+  .br-spec{
+    display: none;
+  }
+
+  .br-first {
+    display: block;
+  }
+
+}
+
+
+@media only screen and (min-width: 1600px) {
+.main{
+  line-height: 1.3em;
+    font-size: 1.5vw;
+}
+
+.header-main h1 {
+    font-size: 2.0vw;
+}
+
+}
