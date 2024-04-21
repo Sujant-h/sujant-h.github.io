@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PowerPoint Creater</title>
+    <link rel="stylesheet" href="styles.css">
+   
+  </head>
+
+  <h1> PowerPoint Creator </h1>
+
+  <div class="inputSection">
+
+
+<form>
+  <label for="fname">Song 1</label>
+  <input type="text" id="textInput1" placeholder="Insert number">
+  <br>
+  <label for="fname">Song 2</label>
+  <input type="text" id="textInput2" placeholder="Insert number">
+  <br>
+  <label for="lname">Song 3</label>
+  <input type="text" id="textInput3" placeholder="Insert number">
+  <br>
+  <label for="lname">Song 4</label>
+  <input type="text" id="textInput4" placeholder="Insert number">
+  <br>
+  <label for="lname">Song 5</label>
+  <input type="text" id="textInput5" placeholder="Insert number">
+  <br>
+
+</form>
+<div id="error-message"></div> <!-- Area to display error messages -->
+
+<div class="btnGen">
+    <button class="GenerateBtn" onclick="main()">Generate PPTX</button>
+</div>
+
+<div class="downloadMessage" style="display: none;">Download started</div>
+
+
+
+  </div>
+
+
+  <body>
+    
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+
+
+
+	<script src="index7.js"></script>
+  </body>
+</html>

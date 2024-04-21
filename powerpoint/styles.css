@@ -1,0 +1,85 @@
+body{
+    background-color: black;
+}
+
+h1{
+    width: 100%;
+    color: #89CFF0;
+    text-align: center;
+    align-items: center;
+}
+.inputSection input {
+    margin-bottom: 5px;
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+    background-color: #F0FFFF;
+
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 5px solid #1F51FF;
+    color: black;
+    font-weight: bold;
+    font-size: 2rem;
+  }
+
+  label{
+    color: whitesmoke;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+
+  .GenerateBtn{
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #00FFFF;
+    border: none;          /* Removes the default border */
+    border-radius: 15px;   /* Rounds the corners of the button */
+    cursor: pointer;       /* Changes the mouse cursor to a pointer when hovered over the button */
+    outline: none;
+
+
+  }
+
+  .btnGen{
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    margin-top: 15vh;
+      
+  }
+
+
+  .downloadMessage {
+    position: fixed;
+    bottom: 10px; /* Position from bottom */
+    width: 100%;
+    text-align: center;
+    color: #FFF;
+    background-color: rgba(0,0,0,0.5);
+    padding: 10px;
+    font-size: 1.25rem;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Animation for fade in */
+}
+
+/* This class will be added via JavaScript */
+.fade-in {
+    opacity: 1;
+}
+
+
+#error-message {
+    color: red;
+    margin-bottom: 10px;
+  }
