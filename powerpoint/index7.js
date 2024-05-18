@@ -1,5 +1,25 @@
-function downloadPPTX(jsonData) {
+function downloadPPTX(jsonData, vorlageNb) {
+  
+
     console.log(jsonData);
+
+    let pathVorlage="";
+    switch (+vorlageNb) {
+      case 1:
+        pathVorlage="images/vorlage1/";
+        break;
+      case 2:
+        pathVorlage="images/vorlage2/";
+        break;
+      case 3:
+        pathVorlage="images/vorlage3/";
+        break;
+      default:
+        console.log("Sorry, no valid vorlangeNb"+ vorlageNb);
+        pathVorlage="images/vorlage1/";
+    }
+
+
     // 1. Create a new Presentation
     let pres = new PptxGenJS();
 
@@ -7,29 +27,35 @@ function downloadPPTX(jsonData) {
     // 2. Add a Slide
     let slide = pres.addSlide();
 
-    let currentDate = new Date();
     
-    // Find the next Sunday
-    let nextSunday = new Date(currentDate);
-    nextSunday.setDate(currentDate.getDate() + (7 - currentDate.getDay()));
-    
+    var nextSunday = new Date();
+    if(nextSunday.getDay()!=0){
+      // Find the next Sunday
+      nextSunday.setDate(nextSunday.getDate() + (7 - nextSunday.getDay()));
+    }
+ 
+
     // Format the date to dd.mm.yy
     let formattedDate = nextSunday.getDate().toString().padStart(2, '0') + '.' +
-                        (nextSunday.getMonth() + 1).toString().padStart(2, '0') + '.' +
-                        nextSunday.getFullYear();
+        (nextSunday.getMonth() + 1).toString().padStart(2, '0') + '.' +
+        nextSunday.getFullYear();
+   
     
     // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
-    slide.addImage({ path: "images/image1.jpg", x: "0%", y:"0%", w: "100%", h: "100%" });
+    slide.addImage({ path: pathVorlage+"image1.jpg", x: "0%", y:"0%", w: "100%", h: "100%" });
     slide.addImage({ path: "images/logo1.png", x: "75%", y:"83%", w:"25%", h:"17%", transparency: 15});
+
+    const textStyle = {
+      x: 1.5,
+      y: 1.5,
+      bold: true,
+      fontSize: 64,
+      color: "FFFFFF",
+      align: pres.AlignH.center
+  };
+  
     
-    slide.addText(formattedDate, {
-        x: 1.5,
-        y: 1.5,
-        bold: true,
-        fontSize: 64,
-        color: "FFFFFF",
-        align: pres.AlignH.center,
-    });
+    slide.addText(formattedDate, textStyle);
         
 
 
@@ -216,7 +242,7 @@ switch (blocks) {
   */
   
 let slide4 = pres.addSlide();        
-slide4.addImage({ path: "images/image2.jpg", x: "0%", y:"0%", w: "100%", h: "100%" });
+slide4.addImage({ path: pathVorlage+"image2.jpg", x: "0%", y:"0%", w: "100%", h: "100%" });
 
 
   /* 
@@ -316,7 +342,7 @@ switch (blocks) {
 
   
 let slide6 = pres.addSlide();        
-slide6.addImage({ path: "images/image3.jpg", x: "0%", y:"0%", w: "100%", h: "100%" });
+slide6.addImage({ path: pathVorlage+"image3.jpg", x: "0%", y:"0%", w: "100%", h: "100%" });
 
 
 
@@ -525,8 +551,8 @@ switch (blocks) {
   */
 
             // 2. Add a Slide
-            let slide10 = pres.addSlide();
-            slide10.background = {color: "000000"}
+            let slide10 = pres.addSlide();        
+            slide10.addImage({ path: pathVorlage+"image4.jpg", x: "0%", y:"0%", w: "100%", h: "100%" });
 
 
 
@@ -557,28 +583,42 @@ function splitText(songText) {
 }
 
 async function fetchDataAndFilter(ids) {
-    try {
-        const response = await fetch('output.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+  try {
+      const response = await fetch('output.json');
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
 
-        // Convert input IDs to strings to match JSON data formatting
-        const stringIds = ids.map(id => id.toString());
+      console.log(typeof(ids));
+      
 
-        // Create a map from the JSON data for quick lookup
-        const dataMap = new Map(data.map(item => [item.id, item]));
+      // Filter out falsy values from ids
+      ids = ids.filter(item => item);
+      console.log("Filtered ids array " + ids);
+      console.log("Filtered ids size " + ids.length);
 
-        // Collect results based on the order of provided IDs using the map for constant time lookup
-        const results = stringIds.map(id => dataMap.get(id)).filter(item => item !== undefined);
+      // Convert input IDs to strings to match JSON data formatting
+      const stringIds = ids.map(id => id.toString());
 
-        // Log the ordered matching entries to verify correct ordering and presence
-        //console.log('Ordered matching entries:', results);
-        return results;
-    } catch (error) {
-        console.error('Error fetching or processing data:', error);
-    }
+      // Create a map from the JSON data for quick lookup
+      const dataMap = new Map(data.map(item => [item.id.toString(), item]));
+
+      // Collect results based on the order of provided IDs using the map for constant time lookup
+      const results = stringIds.map(id => dataMap.get(id)).filter(item => item !== undefined);
+
+      // Log the ordered matching entries to verify correct ordering and presence
+      //console.log('Ordered matching entries:', results);
+      if(ids.length!=results.length){
+        var errorMessage = document.getElementById("error-message"); // Assume there's an HTML element with this ID
+        errorMessage.innerHTML = ""; // Clear previous messages
+        errorMessage.innerHTML = "Einige Ergebnisse wurden nicht gefunden!";
+        throw new Error("Einige Ergebnisse wurden nicht gefunden!");
+      }
+      return results;
+  } catch (error) {
+      console.error('Error fetching or processing data:', error);
+  }
 }
 
 function inputCheck() {
@@ -588,19 +628,30 @@ function inputCheck() {
     
     errorMessage.innerHTML = ""; // Clear previous messages
 
-    for (var i = 1; i <= 5; i++) {
+    var vorlageNb = document.getElementById("textInput0").value.trim();
+    if(vorlageNb<1 || vorlageNb>3){
+      errorMessage.innerHTML = "Vorlage " + vorlageNb + " nicht gefunden. Eine Nummer zwischen 1 und 3 eingeben!";
+      throw new Error("Vorlage " + vorlageNb + " nicht gefunden. Eine Nummer zwischen 1 und 3 eingeben!");
+      return;
+    }
+    var emptyFieldNb=0;
+
+    for (var i = 1; i < document.querySelectorAll("input").length; i++) {
       var input = document.getElementById("textInput" + i).value.trim();
       if (input === "") {
-        errorMessage.innerHTML = "Please enter text in all fields.";
-        throw new Error("Please enter text in all fields."); // Log the error but don't break the flow
-        return;
+        emptyFieldNb++;
       }
       if (inputSet.has(input)) {
-        errorMessage.innerHTML = "Duplicate text found: " + input + ". Please enter unique texts.";
+        errorMessage.innerHTML = "Dopppelte Zahl gefunden: " + input + ". Bitte unterschiedliche Zahlen eingeben!";
+        throw new Error("Dopppelte Zahl "+ input +" gefunden. Bitte unterschiedliche Zahlen eingeben!");
+
         return;
       }
       inputSet.add(input);
       textInputs.push(input);
+    }
+    if(emptyFieldNb>0){
+      errorMessage.innerHTML = emptyFieldNb+" Felder sind leer";
     }
     downloadMessage();
     return textInputs;
@@ -621,6 +672,21 @@ function downloadMessage(){
     }, 4000); // Time in milliseconds (4 seconds)
 }
 
+function addInputFields(){
+
+  //const songInputs = document.getElementByIdqu('songInputs');
+  const newInputCount = document.querySelectorAll("input").length;
+  songInputs.innerHTML += `
+      <label for="song${newInputCount}">Song ${newInputCount}</label>
+      <input type="text" id="textInput${newInputCount}" placeholder="Insert number">
+      <br>
+  `;
+
+
+  
+
+}
+
 
 
 // Wrap your main functionality in an async function to use await
@@ -631,13 +697,17 @@ async function main() {
 
     var textInputProcessed = inputCheck();
     var inputFormLength = document.querySelectorAll("input").length;
+    var vorlageNb = document.getElementById("textInput0").value.trim();
+
     
     // Example usage: searching for entries with ids 1 and 10
     fetchDataAndFilter(textInputProcessed).then(result => {
-        if (result.length == inputFormLength) {
-            downloadPPTX(result);
+        if (result.length >=5) {
+            downloadPPTX(result, vorlageNb);
         } else {
-            alert("Nicht alle Lieder wurden gefunden");
+          var errorMessage = document.getElementById("error-message"); // Assume there's an HTML element with this ID
+          errorMessage.innerHTML = ""; // Clear previous messages
+          errorMessage.innerHTML = "Bitte midestens die ersten 5 felder ausfüllen!";
         }
     });
 
