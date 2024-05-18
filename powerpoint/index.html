@@ -9,12 +9,18 @@
    
   </head>
 
+  <body> 
+
   <h1> PowerPoint Creator </h1>
 
   <div class="inputSection">
+    
 
 
 <form>
+  <label for="fname">Vorlage</label>
+  <input type="text" id="textInput0" placeholder="Insert number 1 - 3">
+  <br>
   <label for="fname">Song 1</label>
   <input type="text" id="textInput1" placeholder="Insert number">
   <br>
@@ -31,8 +37,19 @@
   <input type="text" id="textInput5" placeholder="Insert number">
   <br>
 
+  <div id="songInputs">
+    <!-- Song inputs will be added here dynamically -->
+</div>
+
+
+
+
 </form>
+
 <div id="error-message"></div> <!-- Area to display error messages -->
+
+<button id="addInput" onclick="addInputFields()">Add More Songs</button>
+<br>
 
 <div class="btnGen">
     <button class="GenerateBtn" onclick="main()">Generate PPTX</button>
@@ -45,7 +62,7 @@
   </div>
 
 
-  <body>
+
     
     <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 
