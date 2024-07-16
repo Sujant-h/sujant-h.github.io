@@ -1,73 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PowerPoint Creater</title>
+    <title>PowerPoint Creator</title>
     <link rel="stylesheet" href="styles.css">
-   
-  </head>
-
-  <body> 
-
-  <h1> PowerPoint Creator </h1>
-
-  <div class="inputSection">
-    
-
-
-<form>
-  <label for="fname">Vorlage</label>
-  <input type="text" id="textInput0" placeholder="Insert number 1 - 3">
-  <br>
-  <label for="fname">Song 1</label>
-  <input type="text" id="textInput1" placeholder="Insert number">
-  <br>
-  <label for="fname">Song 2</label>
-  <input type="text" id="textInput2" placeholder="Insert number">
-  <br>
-  <label for="lname">Song 3</label>
-  <input type="text" id="textInput3" placeholder="Insert number">
-  <br>
-  <label for="lname">Song 4</label>
-  <input type="text" id="textInput4" placeholder="Insert number">
-  <br>
-  <label for="lname">Song 5</label>
-  <input type="text" id="textInput5" placeholder="Insert number">
-  <br>
-
-  <div id="songInputs">
-    <!-- Song inputs will be added here dynamically -->
-</div>
-
-
-
-
-</form>
-
-<div id="error-message"></div> <!-- Area to display error messages -->
-
-<button id="addInput" onclick="addInputFields()">Add More Songs</button>
-<br>
-
-<div class="btnGen">
-    <button class="GenerateBtn" onclick="main()">Generate PPTX</button>
-</div>
-
-<div class="downloadMessage" style="display: none;">Download started</div>
-
-
-
-  </div>
-
-
-
-    
+</head>
+<body>
+    <h1>PowerPoint Creator</h1>
+    <div class="container">
+        <div class="header">
+            <div class="inputSection">
+                <form>
+                    <div class="input-header">
+                        <label for="vorlage"></label>
+                        <select name="vorlage" id="vorlageNb">
+                            <option value="1">1. Vorlage</option>
+                            <option value="2">2. Vorlage</option>
+                            <option value="3">3. Vorlage</option>
+                        </select>
+                        <label for="dateInput">Datum:</label>
+                        <input type="date" id="dateInput" name="dateInput">
+                        <br>
+                    </div>
+                    <div class="inputSngs">
+                        <label for="textInput1">Song 1</label>
+                        <input type="text" id="0" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <label for="textInput2">Song 2</label>
+                        <input type="text" id="1" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <label for="textInput3">Song 3</label>
+                        <input type="text" id="2" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <label for="textInput4">Song 4</label>
+                        <input type="text" id="3" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <label for="textInput5">Song 5</label>
+                        <input type="text" id="4" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <div id="songInputs">
+                            <!-- Song inputs will be added here dynamically -->
+                        </div>
+                    </div>
+                </form>
+                <div id="error-message"></div> <!-- Area to display error messages -->
+                <div class="button-container">
+                    <button id="addInput" onclick="addInputFields()">
+                        <span class="plus-sign">+</span>
+                    </button>
+                </div>
+                <br>
+                <div class="btnGen">
+                    <button class="GenerateBtn" onclick="main()">Generate PPTX</button>
+                </div>
+                <div class="downloadMessage" style="display: none;">Download started</div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+    <script src="index.js"></script>
+    <script>
 
 
 
-	<script src="index7.js"></script>
-  </body>
+
+
+    </script>
+</body>
 </html>
