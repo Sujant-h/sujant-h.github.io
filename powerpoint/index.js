@@ -245,7 +245,7 @@ function enableAutocomplete(inpVal) {
 
 
   function handleKeyDown(event, index) {
-    if (event.key === 'Backspace' || event.key === 'Delete') {
+    if (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward') {        
         event.target.value = '';
         updateIdAtIndex(index, null);
         lastValidId = ""; // Reset last valid id when input is cleared
