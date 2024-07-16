@@ -1,0 +1,44 @@
+{
+    "name": "PowerPoint Creator",
+    "short_name": "PPTCreator",
+ "icons": [
+    {
+        "src": "icons/icon-192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+    },
+    {
+        "src": "icons/icon-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+    }
+],
+
+    "start_url": "index.html",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#FFFFFF",
+    "screenshots": [
+        {
+            "src": "screenshots/desktop-wide.png",
+            "sizes": "1200x800",
+            "type": "image/png",
+            "label": "Desktop Wide",
+            "platform": "wide"
+          },
+    {
+        "src": "screenshots/desktop.png",
+        "sizes": "1280x720",
+        "type": "image/png",
+        "platform": "wide"
+    },
+    {
+        "src": "screenshots/mobile.png",
+        "sizes": "640x1136",
+        "type": "image/png"
+    }
+]
+
+  }
+  
