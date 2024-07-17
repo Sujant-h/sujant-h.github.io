@@ -2,11 +2,12 @@ const CACHE_NAME = 'v1';
 
 // URLs to cache upfront
 const urlsToCache = [
+    '/',
     'index.html',
     'styles.css',
     'index.js',
     'data.json',
-    'https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js' // Include the JSON file itself in the cache
+    'pptxgen.bundle.js' // Include the JSON file itself in the cache
 ];
 
 // Installing Service Worker
