@@ -4,12 +4,13 @@ const CACHE_NAME = 'v1';
 const urlsToCache = [
     'index.html',
     'styles.css',
+    'pptxgen.bundle.js',
     'index.js',
     'data.json', // Include the JSON file itself in the cache
     '/images/vorlage/image1.jpg',
     '/images/vorlage/image2.jpg',
     '/images/vorlage/image3.jpg',
-    '/images/vorlage/image4.jpg',
+    '/images/vorlage/image4.jpg'
 
 ];
 

@@ -24,14 +24,13 @@
             "src": "screenshots/desktop-wide.png",
             "sizes": "1200x800",
             "type": "image/png",
-            "label": "Desktop Wide",
-            "platform": "wide"
+            "label": "Desktop Wide"
           },
     {
         "src": "screenshots/desktop.png",
         "sizes": "1280x720",
         "type": "image/png",
-        "platform": "wide"
+        "form_factor": "wide"
     },
     {
         "src": "screenshots/mobile.png",
