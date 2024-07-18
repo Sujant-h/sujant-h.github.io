@@ -4,43 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-    <title>Tamil Christian Songbook</title>
+    <title>PowerPoint Creator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <div class="grid-2">
-        <div class="section-1">
-
-            <h1>Tamil Christian Songbook</h1>
-
-            <a href="https://github.com/Sujant-h/TamilChristianSongbook/releases/download/v1.0/TamilChristianSongbook_v1.0.apk"
-            <button class="btn"><i class="fa fa-download"></i> Download</button>
-
-
-            <p>v1.0</p>
-            </a>
-            <a href="https://github.com/Sujant-h/TamilChristianSongbook"><i class="fab fa-github"></i></a>
-        </div>
-        <div class="section-2">
-            <h2>About</h2>
-            <p>A Christian Songbook in Tamil and German for Android. This is the first version of the App. </p>
-            <h2>Minimal requirements</h2>
-            <p>The minium android version is Android 5.0 (min SDK 21). The app also supports supports the latest Android version.</p>
-
-            <h2>Changelog</h2>
-      <a href="https://github.com/Sujant-h/TamilChristianSongbook/releases/download/v1.0/TamilChristianSongbook_v1.0.apk">      <p><b>v1.0</p></b></a>
-            <li>First release
-            </li>
-
-            <h2>Contact</h2>
-            <p>s.ujanth089@gmail.com</p>
-
-            <h2>Songbook Website</h2>
-            <a href="index_ta-start.html">      <p><b> Click here </p></b></a>
-            <h2>PowerPoint creator</h2>
-            <a href="/powerpoint/index.html">      <p><b> Click here </p></b></a>
+    <h1><a href="" onclick="location.reload(); return false;">PowerPoint Creator</a></h1>
+    <div class="container">
+        <div class="header">
+            <div class="inputSection">
+                <form>
+                    <div class="input-header">
+                        <label for="vorlage"></label>
+                        <select name="vorlage" id="vorlageNb">
+                            <option value="1">1. Vorlage</option>
+                            <option value="2">2. Vorlage</option>
+                            <option value="3">3. Vorlage</option>
+                        </select>
+                        <label for="dateInput">Datum</label>
+                        <input type="date" id="dateInput" name="dateInput">
+                        <br>
+                    </div>
+                    <div class="inputSngs">
+                        <label for="textInput1">Song 1</label>
+                        <input type="text" id="0" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <label for="textInput2">Song 2</label>
+                        <input type="text" id="1" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <label for="textInput3">Song 3</label>
+                        <input type="text" id="2" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <label for="textInput4">Song 4</label>
+                        <input type="text" id="3" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <label for="textInput5">Song 5</label>
+                        <input type="text" id="4" placeholder="Enter Song Number" autocomplete="off">
+                        <br>
+                        <div id="songInputs">
+                            <!-- Song inputs will be added here dynamically -->
+                        </div>
+                    </div>
+                </form>
+                <div id="error-message"></div> <!-- Area to display error messages -->
+                <div class="button-container">
+                    <button id="addInput" onclick="addInputFields()">
+                        <span class="plus-sign">+</span>
+                    </button>
+                </div>
+                <br>
+                <div class="btnGen">
+                    <button class="GenerateBtn" onclick="main()">Generate PPTX</button>
+                </div>
+                <div class="downloadMessage" style="display: none;">Download started</div>
+            </div>
         </div>
     </div>
+    	
+    <script src="pptxgen_bundle.js"></script>
+    <script src="index.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+        </script>
+        
+        
 </body>
 </html>
