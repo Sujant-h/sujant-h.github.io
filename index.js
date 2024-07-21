@@ -277,10 +277,6 @@ function initializeEventListeners() {
 
 
 
-
-
-
-
 function addInputFields() {
   // Get the container where new inputs are to be added
   const songInputs = document.getElementById('songInputs'); // Corrected getElementById
@@ -309,10 +305,6 @@ function addInputFields() {
 }
 
 
-
-
-
-
 window.onload = function() {
   loadJsonData();
   document.getElementById('dateInput').value = getNextSundayDateInp();
@@ -322,8 +314,6 @@ window.onload = function() {
   initializeEventListeners(); // Initialize event listeners for existing inputs
 
   document.getElementById('addInput').addEventListener('click', addInputField);
-
-
 
 };
 
