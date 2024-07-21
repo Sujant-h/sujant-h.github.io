@@ -8,11 +8,7 @@ const urlsToCache = [
     'index.js',
     'pptxgen_bundle.js',
     'data.json',
-    'sw.js',
     'manifest.json',
-    'screenshots/desktop-wide.png',
-    'screenshots/desktop.png',
-    'screenshots/mobile.png',
     'images/vorlage1/image1.jpg',
     'images/vorlage1/image2.jpg',
     'images/vorlage1/image3.jpg',
@@ -20,13 +16,12 @@ const urlsToCache = [
     'images/vorlage2/image1.jpg',
     'images/vorlage2/image2.jpg',
     'images/vorlage2/image3.jpg',
-    'images/vorlage3/image3.jpg', // Corrected duplicate and erroneous paths
-    'images/logo1.png',
-    'images/slides/1_slide_1.png',
-    'images/slides/2_slide_1.png',
-    'images/slides/3_slide_1.png',
-    'images/slides/4_slide_1.png',
-    'images/slides/5_slide_1.png'
+    'images/vorlage2/image4.jpg',
+    'images/vorlage3/image1.jpg', 
+    'images/vorlage3/image2.jpg', 
+    'images/vorlage3/image3.jpg', 
+    'images/vorlage3/image4.jpg', 
+    'images/logo1.png'
 ];
 
 // Installing Service Worker
@@ -70,14 +65,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
             .then(response => {
-                // Return the cached response if found, otherwise fetch from network
                 return response || fetch(event.request);
-            })
-            .catch(() => {
-                // Optionally handle exceptions for fetch errors like showing an offline page
-                if (event.request.mode === 'navigate') {
-                    return caches.match('/offline.html');
-                }
             })
     );
 });

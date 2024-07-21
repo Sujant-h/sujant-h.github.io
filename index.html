@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PowerPoint Creator</title>
+    <link rel="icon" type="image/png" href="/icons/favicon.png">
+
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <h1><a href="" onclick="location.reload(); return false;">PowerPoint Creator</a></h1>
+    <h1>
+        <a href="" onclick="event.preventDefault(); location.reload();">
+            <img src="icons/icon-192x192.png" alt="P" class="letter-image">
+            ower
+            <img src="icons/icon-192x192.png" alt="P" class="letter-image">
+            oint Creator
+        </a>
+    </h1>
     <div class="container">
         <div class="header">
             <div class="inputSection">
@@ -20,26 +29,29 @@
                             <option value="1">1. Vorlage</option>
                             <option value="2">2. Vorlage</option>
                             <option value="3">3. Vorlage</option>
+                            <option value="4">4. Vorlage</option>
+                            <option value="5">5. Vorlage</option>
+                            <option value="6">6. Vorlage</option>
                         </select>
                         <label for="dateInput">Datum</label>
                         <input type="date" id="dateInput" name="dateInput">
                         <br>
                     </div>
                     <div class="inputSngs">
-                        <label for="textInput1">Song 1</label>
-                        <input type="text" id="0" placeholder="Enter Song Number" autocomplete="off">
+                        <label for="textInput1">Lied 1</label>
+                        <input type="text" id="0" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
-                        <label for="textInput2">Song 2</label>
-                        <input type="text" id="1" placeholder="Enter Song Number" autocomplete="off">
+                        <label for="textInput2">Lied 2</label>
+                        <input type="text" id="1" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
-                        <label for="textInput3">Song 3</label>
-                        <input type="text" id="2" placeholder="Enter Song Number" autocomplete="off">
+                        <label for="textInput3">Lied 3</label>
+                        <input type="text" id="2" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
-                        <label for="textInput4">Song 4</label>
-                        <input type="text" id="3" placeholder="Enter Song Number" autocomplete="off">
+                        <label for="textInput4">Lied 4</label>
+                        <input type="text" id="3" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
-                        <label for="textInput5">Song 5</label>
-                        <input type="text" id="4" placeholder="Enter Song Number" autocomplete="off">
+                        <label for="textInput5">Lied 5</label>
+                        <input type="text" id="4" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
                         <div id="songInputs">
                             <!-- Song inputs will be added here dynamically -->
@@ -54,7 +66,7 @@
                 </div>
                 <br>
                 <div class="btnGen">
-                    <button class="GenerateBtn" onclick="main()">Generate PPTX</button>
+                    <button class="GenerateBtn" onclick="main()">Download PPTX</button>
                 </div>
                 <div class="downloadMessage" style="display: none;">Download started</div>
             </div>

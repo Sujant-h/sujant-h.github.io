@@ -20,21 +20,15 @@
     "scope": "/",
     "theme_color": "#FFFFFF",
     "screenshots": [
-        {
-            "src": "screenshots/desktop-wide.png",
-            "sizes": "1200x800",
-            "type": "image/png",
-            "label": "Desktop Wide"
-          },
     {
         "src": "screenshots/desktop.png",
-        "sizes": "1280x720",
+        "sizes": "2736x1824",
         "type": "image/png",
         "form_factor": "wide"
     },
     {
         "src": "screenshots/mobile.png",
-        "sizes": "640x1136",
+        "sizes": "1170x2532",
         "type": "image/png"
     }
 ]

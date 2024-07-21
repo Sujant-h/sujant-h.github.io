@@ -8,14 +8,22 @@ body {
 }
 
 h1 {
-    margin-top: 20px;
-    font-size: 2em;
-    color: #333;
+    font-size: 2em; /* Maintains a large font size for visibility */
+    white-space: nowrap; /* Prevents the title from wrapping onto the next line */
+    line-height: 1; /* Ensures tight line spacing to match images with text */
 }
 
 h1 a {
-    text-decoration: none;
-    color: inherit;
+    text-decoration: none; /* Removes underline from the link */
+    color: black; /* Sets the link color */
+    display: inline-flex; /* Aligns images and text inline and in a flexible container */
+    align-items: center; /* Centers items vertically */
+}
+
+.letter-image {
+    height: 0.8em; /* Adjust this to match the size of your text */
+    width: auto; /* Keeps the image aspect ratio */
+    margin: 0 2px; /* Adds horizontal spacing if needed */
 }
 
 /* Container Styles */
@@ -74,14 +82,13 @@ h1 a {
     padding: 10px 15px;
     font-size: 1.2em;
     color: #fff;
-    background-color: #28a745;
+    background-color: #284b63;
     border: none;
-    border-radius: 4px;
+    border-radius: 25px;
     cursor: pointer;
 }
 
 .button-container button:hover {
-    background-color: #218838;
 }
 
 .btnGen {
@@ -92,14 +99,14 @@ h1 a {
     padding: 10px 20px;
     font-size: 1em;
     color: #fff;
-    background-color: #007bff;
+    background-color: #3c6e71;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .btnGen button:hover {
-    background-color: #0056b3;
+    background-color: #008E9B;
 }
 
 .downloadMessage {

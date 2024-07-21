@@ -1,20 +1,22 @@
+// Constants for template paths
+const templatePaths = {
+    1: "images/vorlage1/",
+    2: "images/vorlage2/",
+    3: "images/vorlage3/",
+    4: "images/vorlage4/",
+    5: "images/vorlage5/",
+    6: "images/vorlage6/",
+  };
+
+function getPathForTemplate(templateNumber) {
+    return templatePaths[templateNumber] || "images/vorlage1/";
+  }
+
+
 function downloadPPTX(vorlageNb) {
-    // Determine the path based on input
-    let pathVorlage;
-    switch (+vorlageNb) {
-        case 1:
-            pathVorlage = "images/vorlage1/";
-            break;
-        case 2:
-            pathVorlage = "images/vorlage2/";
-            break;
-        case 3:
-            pathVorlage = "images/vorlage3/";
-            break;
-        default:
-            console.log("Sorry, no valid vorlangeNb " + vorlageNb);
-            pathVorlage = "images/vorlage1/";
-    }
+
+
+let  pathVorlage = getPathForTemplate(vorlageNb);
 
     // Create a new Presentation
     let pres = new PptxGenJS();
@@ -286,8 +288,8 @@ function addInputFields() {
 
  // HTML content for the new input and its label
  const newInputHTML = `
- <label for="${newInputId}">Song ${newInputCount+1}</label>
- <input type="text" id="${newInputId}" placeholder="Enter Song Number">
+ <label for="${newInputId}">Lied ${newInputCount+1}</label>
+ <input type="text" id="${newInputId}" placeholder="Lied Nummer einfügen">
  <br>
 `;
 
