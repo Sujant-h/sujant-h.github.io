@@ -143,8 +143,11 @@ let  pathVorlage = getPathForTemplate(vorlageNb);
         }
     }
 
+    
+
     // Save the presentation
-    pres.writeFile({ fileName: "Presentation.pptx" });
+    var fileName = "Gottesdienst " + formattedDate + ".pptx";
+    pres.writeFile({ fileName: fileName });
 }
 
   
