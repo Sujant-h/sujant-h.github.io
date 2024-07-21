@@ -21,7 +21,8 @@ const urlsToCache = [
     'images/vorlage3/image2.jpg', 
     'images/vorlage3/image3.jpg', 
     'images/vorlage3/image4.jpg', 
-    'images/logo1.png'
+    'images/logo1.png',
+	'icons/icon-192x192.png'
 ];
 
 // Installing Service Worker
