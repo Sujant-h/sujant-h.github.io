@@ -313,8 +313,6 @@ window.onload = function() {
 
   initializeEventListeners(); // Initialize event listeners for existing inputs
 
-  document.getElementById('addInput').addEventListener('click', addInputField);
-
 };
 
 
