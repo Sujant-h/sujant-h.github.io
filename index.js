@@ -25,7 +25,6 @@ const ending = ".png";
 
 function getPathForTemplate() {
   let vorlageValue = getVorlageValue();
-  console.log(vorlageValue);
     return templatePaths[vorlageValue] || "images/vorlage1/";
   }
 
@@ -490,7 +489,6 @@ async function createFullPDF() {
 
 async function addImagePage(pdf, data){
     let pathImg1 = "images/slides/" + data.filename[0] + ".png";
-    console.log(pathImg1)
     const img1 = await loadImage(pathImg1);
 
     pdf.addImage(img1, 'PNG', 0, 0, 1920, 1080);
@@ -660,18 +658,26 @@ function randomSngs(){
 
 
 
- // Function to get the next Sunday's date
- function getNextSundayDateInp() {
+function getNextSundayDateInp() {
   var today = new Date();
   
   if (today.getDay() === 0) {
     return today.toISOString().slice(0, 10); // Return today's date if it's Sunday
   } else {
     var nextSunday = new Date(today);
-    nextSunday.setDate(today.getDate() + (7 - today.getDay()) % 7);
-    return nextSunday.toISOString().slice(0, 10); // Return next Sunday's date
+    var daysUntilSunday = 7 - today.getDay();
+    nextSunday.setDate(today.getDate() + daysUntilSunday);
+    
+    // Format the date as YYYY-MM-DD without using toISOString()
+    var year = nextSunday.getFullYear();
+    var month = (nextSunday.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+    var day = nextSunday.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`; // Return next Sunday's date
   }
 }
+
+
 
 
 function enableAutocomplete(inpVal) {
@@ -807,7 +813,6 @@ const vorlageInp = document.querySelector(`#vorlageNb`);
 
 function handleSelectChange(selectElement) {
   const selectedValue = selectElement.value;
-  console.log("Selected value: " + selectedValue);
   // Handle select change logic here
   switch(selectedValue) {
     case 'default':
