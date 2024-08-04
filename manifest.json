@@ -1,7 +1,7 @@
 {
-    "name": "PowerPoint Creator",
-    "short_name": "PP Creator",
-	"description": "Eine intuitive App, die automatisch PowerPoint-Folien aus den gewählten Liednummern erstellt.",
+    "name": "LyricCreator",
+    "short_name": "LyricCreator",
+	"description": "Eine intuitive App, die automatisch PowerPoint-Folien, PDF Dateien oder Bilder aus den gewählten Liednummern erstellt.",
  "icons": [
     {
         "src": "icons/icon-192x192.png",

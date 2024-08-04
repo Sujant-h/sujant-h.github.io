@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v1';
+const CACHE_NAME = 'v2';
 
 // URLs to cache upfront
 const urlsToCache = [
@@ -6,7 +6,8 @@ const urlsToCache = [
     'index.html',
     'styles.css',
     'index.js',
-    'pptxgen_bundle.js',
+    'libs/pptxgen.bundle.js',
+    'libs/jspdf.umd.min.js',
     'data.json',
     'manifest.json',
     'images/vorlage1/image1.jpg',
@@ -34,7 +35,15 @@ const urlsToCache = [
     'images/vorlage6/image3.jpg',
     'images/vorlage6/image4.jpg',
     'images/logo1.png',
-	'icons/icon-192x192.png'
+    'images/korinther.jpg',
+    'images/text.png',
+    'icons/icon-512x512.png',
+	'icons/icon-192x192.png',
+    'icons/favicon.png',
+    'icons/plus.svg',
+    'icons/shuffle.svg',
+    'screenshots/desktop.png',
+    'screenshots/mobile.png'
 ];
 
 // Installing Service Worker

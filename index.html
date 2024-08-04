@@ -4,28 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PowerPoint Creator</title>
+    <title>LyricCreator </title>
     <meta name="description" content="Eine intuitive App, die automatisch PowerPoint-Folien aus den gewählten Liednummern erstellt.">
     <link rel="icon" type="image/png" href="/icons/favicon.png">
-
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+    <canvas id="canvas" style="display:none;"></canvas>
     <h1>
         <a href="" onclick="event.preventDefault(); location.reload();">
-            <img src="icons/icon-192x192.png" alt="P" class="letter-image">
-            ower
-            <img src="icons/icon-192x192.png" alt="P" class="letter-image">
-            oint Creator
+            <img src="icons/icon-192x192.png" alt="P" class="logo">
+         
+           Lyric Creator
         </a>
     </h1>
     <div class="container">
         <div class="header">
             <div class="inputSection">
+                <div class="buttonTop">
+                    <button id="button1" class="button active" onclick="handleButtonClick(1)">Gottesdienst</button>
+                    <button id="button2" class="button" onclick="handleButtonClick(2)">Nur Lieder</button>
+                    <select id="select3" class="button" onchange="handleSelectChange(this)">
+                        <option value="default" selected>PPTX</option>
+                        <option value="pdf">PDF</option>
+                        <option value="img">IMG</option>
+                    </select>
+                </div>
                 <form>
                     <div class="input-header">
-                        <label for="vorlage"></label>
+                        <label for="vorlageNb"></label>
                         <select name="vorlage" id="vorlageNb">
                             <option value="1">1. Vorlage</option>
                             <option value="2">2. Vorlage</option>
@@ -39,19 +47,19 @@
                         <br>
                     </div>
                     <div class="inputSngs">
-                        <label for="textInput1">Lied 1</label>
+                        <label for="0">Lied 1</label>
                         <input type="text" id="0" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
-                        <label for="textInput2">Lied 2</label>
+                        <label for="1">Lied 2</label>
                         <input type="text" id="1" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
-                        <label for="textInput3">Lied 3</label>
+                        <label for="2">Lied 3</label>
                         <input type="text" id="2" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
-                        <label for="textInput4">Lied 4</label>
+                        <label for="3">Lied 4</label>
                         <input type="text" id="3" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
-                        <label for="textInput5">Lied 5</label>
+                        <label for="4">Lied 5</label>
                         <input type="text" id="4" placeholder="Lied Nummer eingeben" autocomplete="off">
                         <br>
                         <div id="songInputs">
@@ -61,9 +69,13 @@
                 </form>
                 <div id="error-message"></div> <!-- Area to display error messages -->
                 <div class="button-container">
-                    <button id="addInput" onclick="addInputFields()">
-                        <span class="plus-sign">+</span>
+                    <button class="shuffleBtn" onclick="addInputFields()">
+                        <img src="icons/plus.svg" alt="Plus" class="plusIcon">
                     </button>
+                    
+                    <button class="shuffleBtn" onclick="randomSngs()">
+                        <img src="icons/shuffle.svg" alt="Shuffle" class="shuffleIcon">
+                      </button>
                 </div>
                 <br>
                 <div class="btnGen">
@@ -74,7 +86,8 @@
         </div>
     </div>
     	
-    <script src="pptxgen_bundle.js"></script>
+    <script src="libs/pptxgen.bundle.js"></script>
+    <script src="libs/jspdf.umd.min.js"></script>
     <script src="index.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
@@ -87,7 +100,6 @@
             });
         }
         </script>
-        
         
 </body>
 </html>

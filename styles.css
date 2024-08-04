@@ -7,23 +7,20 @@ body {
     text-align: center;
 }
 
-h1 {
-    font-size: 2em; /* Maintains a large font size for visibility */
-    white-space: nowrap; /* Prevents the title from wrapping onto the next line */
-    line-height: 1; /* Ensures tight line spacing to match images with text */
-}
 
 h1 a {
     text-decoration: none; /* Removes underline from the link */
-    color: black; /* Sets the link color */
     display: inline-flex; /* Aligns images and text inline and in a flexible container */
     align-items: center; /* Centers items vertically */
+    background: linear-gradient(to right, #fb8500, #219ebc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.letter-image {
-    height: 0.8em; /* Adjust this to match the size of your text */
-    width: auto; /* Keeps the image aspect ratio */
-    margin: 0 2px; /* Adds horizontal spacing if needed */
+.logo {
+    width: 50px; /* Adjust as needed */
+    height: auto;
+    margin-right: 10px; /* Space between the logo and the text */
 }
 
 /* Container Styles */
@@ -47,6 +44,40 @@ h1 a {
 .inputSection {
     margin-top: 20px;
 }
+
+
+.buttonTop {
+    display: flex;
+    justify-content: center;
+}
+
+
+.buttonTop button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #754E92;
+    background-color: white;
+    border-radius: 25px;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.buttonTop button.active {
+    background-color: #5A3C71;
+    color: white;
+}
+
+select.button {
+    padding: 8px; /* Adjust padding to match the button style */
+    border: 2px solid #754E92;
+    background-color: white;
+    border-radius: 25px;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
 
 
 .input-header select,
@@ -74,22 +105,35 @@ h1 a {
     border-radius: 4px;
 }
 
+
+
+
 .button-container {
     margin-top: 10px;
-}
-
-.button-container button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .button-container button {
     padding: 10px 15px;
     font-size: 1.2em;
     color: #fff;
-    background-color: #284b63;
+    background-color: #219ebc;
     border: none;
     border-radius: 25px;
     cursor: pointer;
-}
-
-.button-container button:hover {
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; /* Abstand zwischen den Schaltflächen */
+  }
+  .button-container button:hover {
+    background-color: #3c6e71;
+  }
+  .shuffleIcon, .plusIcon {
+    width: 20px;
+    height: 20px;
+  }
 
 .btnGen {
     margin-top: 20px;
@@ -99,14 +143,15 @@ h1 a {
     padding: 10px 20px;
     font-size: 1em;
     color: #fff;
-    background-color: #3c6e71;
+    background-color: #FB8500;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .btnGen button:hover {
-    background-color: #008E9B;
+    background-color: #FF9D2F;
+    
 }
 
 .downloadMessage {
