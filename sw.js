@@ -8,6 +8,7 @@ const urlsToCache = [
     'index.js',
     'libs/pptxgen.bundle.js',
     'libs/jspdf.umd.min.js',
+    'libs/jszip.min.js',
     'data.json',
     'manifest.json',
     'images/vorlage1/image1.jpg',
