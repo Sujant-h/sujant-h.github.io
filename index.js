@@ -295,11 +295,11 @@ async function loadJsonData() {
 
 async function loadImage(url) {
   return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = url;
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Failed to load image from ${url}`));
+    img.src = url;
   });
 }
 
@@ -516,18 +516,20 @@ function downloadImage(url, filename) {
 async function downloadSongImg() {
   for(let i=0;i<dataInpSngs.length;i++){
     if (dataInpSngs[i] != null && dataInpSngs[i] != undefined) {
-      await addSongImg(dataInpSngs[i])
+      const sng1 = await addImageSng(dataInpSngs[i]);
+      await downloadImage(sng1, dataInpSngs[i]+".png");
     }
 
 }
 }
 
-function loadImage(src) {
+async function loadImage(url) {
   return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = src;
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Failed to load image from ${url}`));
+    img.src = url;
   });
 }
 
@@ -551,6 +553,24 @@ async function addTextToImage(path, texts) {
 
   return canvas.toDataURL('image/jpeg');
 }
+
+
+async function addImageSng(array) {
+  const canvas = document.getElementById('canvas');
+  const context = canvas.getContext('2d');
+  let path = "images/slides/"+array.filename[0]+".png"
+  const img = await loadImage(path);
+
+  canvas.width = img.width;
+  canvas.height = img.height;
+  context.drawImage(img, 0, 0);
+
+
+  
+  const sng1 = canvas.toDataURL('image/png');
+  await downloadImage(sng1, dataInpSngs[0]+".png");
+}
+
 
 async function addLogoToImage(imageDataUrl, logoUrl, logoWidth, logoHeight, scaleFactor) {
   const canvas = document.getElementById('canvas');
@@ -588,27 +608,28 @@ async function downloadStandardImg() {
   const modifiedImageUrlLogo = await addLogoToImage(modifiedImageUrl, "images/logo1.png", 632,103,1);
   await downloadImage(modifiedImageUrlLogo, "1.Bild.png");
 
-  await addSongImg(dataInpSngs[0]);
-  await addSongImg(dataInpSngs[1]);
+  const sng1 = await addImageSng(dataInpSngs[0]);
+  await downloadImage(sng1, dataInpSngs[0]+".png");
+ 
 
 
 
-  const modifiedImageUrl1 = await addTextToImage(pathVorlage+"image2.jpg", texts);
+  const modifiedImageUrl1 = await addTextToImage(pathVorlage+"image2.jpg");
   await downloadImage(modifiedImageUrl1, "2.Bild.png");
 
   await addSongImg(dataInpSngs[2]);
 
-  const modifiedImageUrl2 = await addTextToImage(pathVorlage+"image3.jpg", texts);
+  const modifiedImageUrl2 = await addTextToImage(pathVorlage+"image3.jpg");
   await downloadImage(modifiedImageUrl2, "3.Bild.png");
 
   await addSongImg(dataInpSngs[3]);
 
-  const modifiedImageUrl3 = await addTextToImage("images/korinther.jpg", texts);
+  const modifiedImageUrl3 = await addTextToImage("images/korinther.jpg");
   await downloadImage(modifiedImageUrl3, "Korinther.png");
 
   addSongImg(dataInpSngs[4]);
 
-  const modifiedImageUrl4 = await addTextToImage(pathVorlage+"image4.jpg", texts);
+  const modifiedImageUrl4 = await addTextToImage(pathVorlage+"image4.jpg");
   await downloadImage(modifiedImageUrl4, "4.Bild.png");
 
 }
