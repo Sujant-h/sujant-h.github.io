@@ -903,9 +903,12 @@ window.onload = function() {
   loadJsonData();
   document.getElementById('dateInput').value = getNextSundayDateInp();
 
+  handleSelectChange("default");
+
   dataInpSngs = []; 
 
   initializeEventListeners(); // Initialize event listeners for existing inputs
+  
 
 };
 
