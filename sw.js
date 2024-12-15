@@ -56,7 +56,7 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
             .then(cache => {
                 return cache.addAll(urlsToCache)
-                    .then(() => fetch('data.json'))
+                    .then(() => fetch('./data/data.json'))
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
