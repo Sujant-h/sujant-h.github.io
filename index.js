@@ -296,7 +296,6 @@ async function loadJsonData() {
 async function loadImage(url) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = 'Anonymous';
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error(`Failed to load image from ${url}`));
     img.src = url;
@@ -761,8 +760,6 @@ function enableAutocomplete(inpVal) {
           return null;
       }
   }
-
-
 
 
 
