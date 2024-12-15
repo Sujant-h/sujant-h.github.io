@@ -185,3 +185,31 @@ function downloadImage(url, filename) {
       document.body.removeChild(link);
     });
   }
+
+  async function createFullImage() {
+    const zip = new JSZip(); // Initialize zip object
+    
+    for (let i = 0; i < data.length; i++) {
+      const songImages = await addImageSngWithoutDownload(data[i]);
+      for (let j = 0; j < songImages.length; j++) {
+        const imageUrl = songImages[j];
+        const imageBlob = await fetch(imageUrl).then(res => res.blob());
+        if (j === 0) {
+          zip.file(`${data[i].id}.png`, imageBlob); // First file with id as name
+        } else {
+          zip.file(`${data[i].id}_slide2.png`, imageBlob); // Second file with suffix
+        }
+      }
+    }
+
+  // Generate and download zip file
+  zip.generateAsync({ type: "blob" }).then(function (content) {
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(content);
+    link.download = "Alle Lieder" + ".zip";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+}
+
