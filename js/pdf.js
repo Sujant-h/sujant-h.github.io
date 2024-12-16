@@ -115,9 +115,9 @@ async function loadImage(url) {
   
     await addImagePage(pdf, dataInpSngs[4]);
     pdf.addPage([pageWidth, pageHeight]);
-  
-    const img4 = await loadImage(pathVorlage + "image4.jpg");
-    pdf.addImage(img4, 'JPG', 0, 0, imageWidth, imageHeight);
+
+    pdf.setFillColor(0, 0, 0); // Set fill color to black (RGB: 0, 0, 0)
+    pdf.rect(0, 0, 1920, 1080, "F"); // Draw a filled rectangle covering the entire page
     
   
   

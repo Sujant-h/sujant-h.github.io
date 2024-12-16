@@ -3,9 +3,6 @@ const templatePaths = {
     1: "images/vorlage1/",
     2: "images/vorlage2/",
     3: "images/vorlage3/",
-    4: "images/vorlage4/",
-    5: "images/vorlage5/",
-    6: "images/vorlage6/",
   };
 
   // Define image configuration for additional slides

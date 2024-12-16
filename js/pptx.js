@@ -109,7 +109,7 @@ let formattedDate = dateInput();
 
     // Adding remaining slides
     addImageSlide(pres, imgConfig1, dataInpSngs[4]); // Slide 9
-    addVorlageImageSlide(pres, pathVorlage + "image4.jpg"); // Slide 10
+
 
     if (dataInpSngs.length > 4) {
         for (let i = 5; i < dataInpSngs.length; i++) {
@@ -119,6 +119,11 @@ let formattedDate = dateInput();
             
         }
     }
+
+    // Add a black slide with no content
+    let slide9 = pres.addSlide();
+    slide9.background = { color: "000000" }; // Set the background color to black
+    
 
     
 
