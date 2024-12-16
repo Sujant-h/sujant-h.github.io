@@ -122,11 +122,7 @@ function createFullOutput() {
 
 
 function main() {
-    //var textInputProcessed = inputCheck();
-    
     createOutput();
-    
-
 }
 
 async function loadJsonData() {
@@ -162,9 +158,10 @@ function randomSngs(){
   selectedIndices.forEach((index, i) => {
     inputElements[i].value = data[index].title;
     dataInpSngs[i] = enableAutocomplete(inputElements[i].value);
-    document.getElementById(i).style.border = '2px solid green';
 
   });
+  createErrorMessage();
+
 }
 
 
@@ -211,6 +208,8 @@ function enableAutocomplete(inpVal) {
 
 
   function handleInputFocus(event) {
+    createErrorMessage();
+
       
   }
 
@@ -234,10 +233,12 @@ function enableAutocomplete(inpVal) {
 
       if(enableAutocomplete(inptVal)){
         document.getElementById(inputId).value = dataInpSngs[inputId].title;
-        document.getElementById(inputId).style.border = '2px solid green';
+        //document.getElementById(inputId).style.border = '2px solid green';
       } else {
-        document.getElementById(inputId).style.border = '2px solid red';
+        //document.getElementById(inputId).style.border = '2px solid red';
       }
+              createErrorMessage();
+
   }
 
 
@@ -264,6 +265,108 @@ function initializeEventListeners() {
 });
 
   
+}
+
+
+function createErrorMessage() {
+  const errorMessageDiv = document.getElementById('error-message');
+  const warningMessageDiv = document.getElementById('warning-message');
+  
+  errorMessageDiv.innerHTML = ''; // Clear previous error messages
+  warningMessageDiv.innerHTML = ''; // Clear previous warning messages
+  errorMessageDiv.classList.remove('red', 'yellow'); // Remove 'red' and 'yellow' classes
+  warningMessageDiv.classList.remove('yellow'); // Remove 'yellow' class for warnings
+  
+  const nullIndices = [];
+  const emptyInputs = [];
+  const duplicateWarning = [];
+  const seen = new Map(); // Map to store items and their corresponding indices
+
+  // Iterate over the array and check conditions
+  dataInpSngs.forEach((item, index) => {
+    const inputField = document.getElementById(index); // Select the input element with the corresponding ID
+
+    if (item === null) {
+      if (inputField) {
+        // Safely check the value of the input field
+        const inputValue = inputField.value?.trim() || ""; // Fallback to empty string if value is undefined
+        if (inputValue === '') {
+          emptyInputs.push(index + 1); // Convert to human-readable Lied numbering (1-based index)
+        } else {
+          nullIndices.push(index + 1); // Convert to human-readable Lied numbering (1-based index)
+        }
+      } else {
+        // If inputField is not found, treat it as a general "not found" case
+        nullIndices.push(index + 1);
+      }
+    } else {
+      // Check for duplicates among non-null items only
+      if (seen.has(item)) {
+        const previousIndex = seen.get(item); // Get the previous index of the duplicate item
+        duplicateWarning.push([previousIndex + 1, index + 1]); // Store both indices (1-based)
+      } else {
+        seen.set(item, index); // Store the item and its index
+      }
+    }
+  });
+
+  // Construct error messages
+  const messages = [];
+  if (emptyInputs.length > 0) {
+    messages.push(`Fehler: Lied ${emptyInputs.join(', ')} ist leer.`);
+  }
+  if (nullIndices.length > 0) {
+    messages.push(`Fehler: Lieder ${nullIndices.join(', ')} nicht gefunden.`);
+  }
+
+  // Display the combined error messages
+  if (messages.length > 0) {
+    errorMessageDiv.innerHTML = messages.join('<br>'); // Separate multiple messages with a line break
+    errorMessageDiv.classList.add('error', 'red'); // Add both 'error' and 'red' classes for regular errors
+  }
+
+  // Construct duplicate warning message
+  if (duplicateWarning.length > 0) {
+    const duplicateMessage = duplicateWarning
+      .map(([firstIndex, secondIndex]) => `Warnung: Lied ${firstIndex} und ${secondIndex} sind gleich.`)
+      .join('<br>');
+    warningMessageDiv.innerHTML = duplicateMessage;
+    warningMessageDiv.classList.add('yellow'); // Apply yellow class for warning messages
+  }
+
+  // Reset border to green for all input fields that do not have errors or duplicates
+  dataInpSngs.forEach((item, index) => {
+    const inputField = document.getElementById(index); // Select the input element with the corresponding ID
+    if (inputField) {
+      // If there is no error, set the border to green
+      inputField.style.border = '2px solid green';
+    }
+  });
+
+  // Highlight input fields with errors (red border)
+  if (emptyInputs.length > 0 || nullIndices.length > 0) {
+    dataInpSngs.forEach((item, index) => {
+      const inputField = document.getElementById(index); // Select the input element with the corresponding ID
+      if (inputField) {
+        // Apply red border for fields with errors
+        if (emptyInputs.includes(index + 1) || nullIndices.includes(index + 1)) {
+          inputField.style.border = '2px solid red';
+        }
+      }
+    });
+  }
+
+  // Highlight duplicate input fields in yellow
+  duplicateWarning.forEach(([firstIndex, secondIndex]) => {
+    const firstInputField = document.getElementById(firstIndex - 1); // Adjust for 0-based index
+    const secondInputField = document.getElementById(secondIndex - 1); // Adjust for 0-based index
+    if (firstInputField) {
+      firstInputField.style.border = '2px solid #FF9D2F'; // Apply yellow border for duplicates
+    }
+    if (secondInputField) {
+      secondInputField.style.border = '2px solid #FF9D2F'; // Apply yellow border for duplicates
+    }
+  });
 }
 
 

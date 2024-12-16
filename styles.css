@@ -187,8 +187,21 @@ select.button {
 
 /* Error Message Styles */
 #error-message {
-    color: red;
     margin-top: 10px;
+    font-weight: 600;
+}
+
+#warning-message {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.red {
+    color: red;
+}
+
+.yellow {
+    color: #FF9D2F;
 }
 
 .autocomplete-dropdown {
