@@ -135,7 +135,7 @@ async function loadImage(url) {
   
   
     let formattedDate = dateInput();
-    let filename = "Nur Lieder " + formattedDate + ".pdf"
+    let filename = "Gottesdienst " + formattedDate + ".pdf"
     pdf.save(filename);
   }
   
@@ -165,7 +165,7 @@ async function loadImage(url) {
     }
   
     let formattedDate = dateInput();
-    let filename = "Nur Lieder" + formattedDate + ".pdf"
+    let filename = "Nur Lieder " + formattedDate + ".pdf"
     pdf.save(filename);
   }
   
@@ -186,7 +186,7 @@ async function loadImage(url) {
     }
   
     let formattedDate = dateInput();
-    let filename = "Alle Lieder " + formattedDate + ".pdf"
+    let filename = "Alle Lieder" + ".pdf"
     pdf.save(filename);
   }
   

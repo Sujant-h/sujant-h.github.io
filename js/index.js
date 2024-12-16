@@ -1,7 +1,3 @@
-modeNb = 1;
-fileformat = 1;
-
-
 // Constants for template paths
 const templatePaths = {
     1: "images/vorlage1/",
@@ -26,6 +22,22 @@ function getPathForTemplate() {
   let vorlageValue = getVorlageValue();
     return templatePaths[vorlageValue] || "images/vorlage1/";
   }
+
+  function getVorlageValue() {
+    return document.getElementById('vorlageNb').value;
+  }
+
+  function getFileformat () {
+    return document.getElementById('select3').value;
+  }
+
+  function getActiveButton() {
+    const activeButton = document.querySelector('.buttonTop .button.active'); // Find the active button
+    if (activeButton) {
+        return activeButton; // Return the active button element
+    }
+    return null; // Return null if no active button is found
+}
 
 
   // Function to add an image to a new slide
@@ -57,61 +69,53 @@ function getPathForTemplate() {
 
 
 
+  function createOutput() {
+    let fileformat = getFileformat(); // Get the selected file format (e.g., 'default', 'pdf', 'image')
+    let activeButton = getActiveButton(); // Get the active button element
 
-function getVorlageValue() {
-  var vorlageElement = document.getElementById('vorlageNb');
-  return vorlageElement.value;
+    // Check if no button is active
+    if (!activeButton) {
+        console.error("No active button found.");
+        return; // Stop execution if no active button is found
+    }
+
+    // Define the mapping between fileformat and mode (button ID) to their respective functions
+    const actions = {
+        default: {
+            button1: createStandardPPTX,
+            button2: createSongPPTX
+        },
+        pdf: {
+            button1: createStandardPDF,
+            button2: createSongPDF
+        },
+        img: {
+            button1: downloadStandardImg,
+            button2: downloadSongImg
+        }
+    };
+
+    // Execute the corresponding function based on the file format and active button ID
+    const action = actions[fileformat]?.[activeButton.id]; // Safely retrieve the corresponding function
+    if (action) {
+        action(); // Call the function
+    } else {
+        console.error("Invalid file format or button mode.");
+    }
 }
 
 
-
-function createOutput(vorlageNb) {
-  if(fileformat===1){
-
-
-  switch(modeNb) {
-    case 1:
-      createStandardPPTX();
-      break;
-    case 2:
-      createSongPPTX();
-      break;
-    
-   
-    default:
-      createStandardPPTX();
+function createFullOutput() {
+  let fileformat = getFileformat();
+  if (fileformat === 'default') {
+    createFullPPTX(); // Call function for PPTX
+  } else if (fileformat === 'pdf') {
+    createFullPDF(); // Call function for PDF
+  } else if (fileformat === 'img') {
+    createFullImage(); // Call function for Image
+  } else {
+    console.error('Unsupported file format'); // Handle invalid file format
   }
-} else if(fileformat===2){
-
-
-  switch(modeNb) {
-    case 1:
-      createStandardPDF();
-      break;
-    case 2:
-      createSongPDF();
-      break;
-   
-    default:
-      createStandardPDF();
-  }
-} else if(fileformat===3){
-  switch(modeNb) {
-    case 1:
-      downloadStandardImg();
-      break;
-    case 2:
-      downloadSongImg();
-      break;
-   
-    default:
-      downloadStandardImg();
-  }
-
-
-}
-
-
 }
 
 
@@ -292,49 +296,81 @@ function addInputFields() {
 }
 
 function handleButtonClick(buttonNumber) {
-// Remove 'active' class from all buttons
-document.querySelectorAll('.buttonTop button').forEach(button => {
-  button.classList.remove('active');
-});
-
-// Add 'active' class to the clicked button
-const clickedButton = document.querySelector(`.buttonTop button:nth-child(${buttonNumber})`);
-clickedButton.classList.add('active');
-const vorlageInp = document.querySelector(`#vorlageNb`);
-
-
-  // Call a specific function based on the active button
-  switch(buttonNumber) {
-      case 1:
-        modeNb = 1;
-        document.getElementById('vorlageNb').disabled = false;
-          break;
-      case 2:
-        modeNb = 2;
-          document.getElementById('vorlageNb').disabled = true;
-          break;
+  // Remove 'active' class from all buttons
+  document.querySelectorAll('.buttonTop button').forEach(button => {
+    button.classList.remove('active');
+  });
+  
+  // Add 'active' class to the clicked button
+  const clickedButton = document.querySelector(`.buttonTop button:nth-child(${buttonNumber})`);
+  clickedButton.classList.add('active');
+  const vorlageInp = document.querySelector(`#vorlageNb`);
+  
+  
+    // Call a specific function based on the active button
+    switch(buttonNumber) {
+        case 1:
+          modeNb = 1;
+          document.getElementById('vorlageNb').disabled = false;
+            break;
+        case 2:
+          modeNb = 2;
+            document.getElementById('vorlageNb').disabled = true;
+            break;
+    }
   }
-}
+
+
 
 function handleSelectChange(selectElement) {
   const selectedValue = selectElement.value;
   // Handle select change logic here
   switch(selectedValue) {
     case 'default':
-      fileformat=1;
       document.querySelector(".GenerateBtn").innerHTML= 'Download PPTX';
         break;
     case 'pdf':
-      fileformat=2;
       document.querySelector(".GenerateBtn").innerHTML= 'Download PDF';
         break;
     case 'img':
-      fileformat=3;
       document.querySelector(".GenerateBtn").innerHTML= 'Download IMG';
       break;
 
   }
 }
+
+function addLongPressListener(element, onLongPress, delay = 500) {
+  let timer;
+
+  const startTimer = () => {
+    timer = setTimeout(() => {
+      onLongPress();
+      timer = null; // Reset timer
+    }, delay);
+  };
+
+  const clearTimer = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  };
+
+  // Add event listeners for desktop
+  element.addEventListener('mousedown', startTimer);
+  element.addEventListener('mouseup', clearTimer);
+  element.addEventListener('mouseleave', clearTimer);
+
+  // Add event listeners for mobile
+  element.addEventListener('touchstart', startTimer);
+  element.addEventListener('touchend', clearTimer);
+  element.addEventListener('touchcancel', clearTimer);
+}
+
+const button = document.querySelector(".GenerateBtn");
+addLongPressListener(button, () => {
+  createFullOutput();
+}, 700); // 700ms long press
 
 
 
