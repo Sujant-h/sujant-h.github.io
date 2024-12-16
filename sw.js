@@ -47,7 +47,11 @@ const urlsToCache = [
     'icons/plus.svg',
     'icons/shuffle.svg',
     'screenshots/desktop.png',
-    'screenshots/mobile.png'
+    'screenshots/mobile.png',
+    'fonts/subset-NotoSansTamil-Regular.woff',
+    'fonts/subset-NotoSansTamil-Regular.woff2',
+    'fonts/subset-NotoSansTamil-Bold.woff',
+    'fonts/subset-NotoSansTamil-Bold.woff2'
 ];
 
 // Installing Service Worker
