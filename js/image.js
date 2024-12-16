@@ -157,8 +157,6 @@ function downloadImage(url, filename) {
     const modifiedImageUrl3 = await addTextToImage("images/korinther.jpg", []);
     zip.file("Korinther.png", await fetch(modifiedImageUrl3).then(res => res.blob()));
   
-    const modifiedImageUrl4 = await addTextToImage(pathVorlage + "image4.jpg", []);
-    zip.file("4.Bild.png", await fetch(modifiedImageUrl4).then(res => res.blob()));
   
     // Add song images
     for (let i = 0; i < dataInpSngs.length; i++) {
