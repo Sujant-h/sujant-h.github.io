@@ -16,24 +16,24 @@ const templatePaths = {
 
 
 function getPathForTemplate() {
-  let vorlageValue = getVorlageValue();
+  let vorlageValue = getVorlageValue().value;
     return templatePaths[vorlageValue] || "images/vorlage1/";
   }
 
   function getVorlageValue() {
-    return document.getElementById('vorlageNb').value;
+    return document.getElementById('vorlage');
   }
 
   function getFileformat () {
-    return document.getElementById('select3').value;
+    return document.getElementById('outputFormat').value;
   }
 
-  function getActiveButton() {
-    const activeButton = document.querySelector('.buttonTop .button.active'); // Find the active button
-    if (activeButton) {
-        return activeButton; // Return the active button element
-    }
-    return null; // Return null if no active button is found
+  function getMode() {
+    return document.getElementById('mode').value;
+}
+
+function getGenBtn() {
+  return document.getElementById('generateBtn');
 }
 
 
@@ -63,64 +63,47 @@ function getPathForTemplate() {
 
   }
 
+  async function createOutput() {
+    const button = getGenBtn();
+    button.setAttribute('aria-busy', 'true');
+    const fileformat = getFileformat();
+    const mode = getMode();
 
-
-
-  function createOutput() {
-    let fileformat = getFileformat(); // Get the selected file format (e.g., 'default', 'pdf', 'image')
-    let activeButton = getActiveButton(); // Get the active button element
-
-    // Check if no button is active
-    if (!activeButton) {
-        console.error("No active button found.");
-        return; // Stop execution if no active button is found
-    }
-
-    // Define the mapping between fileformat and mode (button ID) to their respective functions
     const actions = {
-        default: {
-            button1: createStandardPPTX,
-            button2: createSongPPTX
+        PPTX: {
+            "Gottesdienst": createStandardPPTX,
+            "Nur Lieder": createSongPPTX,
+            "Alle Lieder": createFullPPTX,
         },
-        pdf: {
-            button1: createStandardPDF,
-            button2: createSongPDF
+        PDF: {
+            "Gottesdienst": createStandardPDF,
+            "Nur Lieder": createSongPDF,
+            "Alle Lieder": createFullPDF,
         },
-        img: {
-            button1: downloadStandardImg,
-            button2: downloadSongImg
-        }
+        IMG: {
+            "Gottesdienst": createStandardImg,
+            "Nur Lieder": createSongImg,
+            "Alle Lieder": createFullImage,
+        },
     };
 
-    // Execute the corresponding function based on the file format and active button ID
-    const action = actions[fileformat]?.[activeButton.id]; // Safely retrieve the corresponding function
-    if (action) {
-        action(); // Call the function
+    if (actions[fileformat] && actions[fileformat][mode]) {
+        try {
+            await actions[fileformat][mode](); // Wait for the file generation to complete
+        } catch (error) {
+            console.error("Error during file generation:", error);
+        } finally {
+            button.setAttribute('aria-busy', 'false'); // Set aria-busy to 'false' when done
+        }
     } else {
-        console.error("Invalid file format or button mode.");
+        console.error("Invalid file format or mode.");
+        button.setAttribute('aria-busy', 'false'); // Reset busy state if invalid
     }
 }
 
 
-function createFullOutput() {
-  let fileformat = getFileformat();
-  if (fileformat === 'default') {
-    createFullPPTX(); // Call function for PPTX
-  } else if (fileformat === 'pdf') {
-    createFullPDF(); // Call function for PDF
-  } else if (fileformat === 'img') {
-    createFullImage(); // Call function for Image
-  } else {
-    console.error('Unsupported file format'); // Handle invalid file format
-  }
-}
 
 
-
-
-function main() {
-    createOutput();
-}
 
 async function loadJsonData() {
   try {
@@ -133,6 +116,40 @@ async function loadJsonData() {
       console.error('Error loading JSON data:', error);
   }
 }
+
+function onModeChange() {
+  const modeSelect = document.querySelector('#mode'); // Get the select element
+  const mode = modeSelect.value; // Get the selected value
+  updateInputsBasedOnMode(mode); // Call the update function with the selected mode
+}
+
+function updateInputsBasedOnMode(mode) {
+  const songInputs = document.querySelectorAll('.inputSngs input'); // Select all song inputs
+  const dateInput = document.querySelector('#dateInput'); // Select the date input
+  const vorlageInput = document.querySelector('#vorlage'); // Ensure vorlage input is selected correctly
+
+  if (!dateInput || !vorlageInput) {
+      console.error("Required inputs are missing from the DOM.");
+      return;
+  }
+
+  // Reset all inputs to enabled by default
+  songInputs.forEach(input => input.removeAttribute('disabled'));
+  dateInput.removeAttribute('disabled');
+  vorlageInput.removeAttribute('disabled');
+
+  // Apply specific disable rules based on mode
+  if (mode === 'Alle Lieder') {
+      // Disable all song inputs, date input, and vorlage input
+      songInputs.forEach(input => input.setAttribute('disabled', 'true'));
+      dateInput.setAttribute('disabled', 'true');
+      vorlageInput.setAttribute('disabled', 'true');
+  } else if (mode === 'Nur Lieder') {
+      // Disable date input and vorlage input
+      vorlageInput.setAttribute('disabled', 'true');
+  }
+}
+
 
 
 
@@ -279,6 +296,15 @@ function createErrorMessage() {
   const duplicateWarning = [];
   const seen = new Map(); // Map to store items and their corresponding indices
 
+  // Reset all input borders to default (e.g., no yellow borders)
+dataInpSngs.forEach((item, index) => {
+  const inputField = document.getElementById(index);
+  if (inputField) {
+    inputField.style.border = ''; // Reset border to default (empty string)
+  }
+});
+
+
   // Iterate over the array and check conditions
   dataInpSngs.forEach((item, index) => {
     const inputField = document.getElementById(index); // Select the input element with the corresponding ID
@@ -336,7 +362,7 @@ function createErrorMessage() {
     const inputField = document.getElementById(index); // Select the input element with the corresponding ID
     if (inputField) {
       // If there is no error, set the border to green
-      inputField.style.border = '2px solid green';
+      inputField.setAttribute("aria-invalid", "false");
     }
   });
 
@@ -347,7 +373,7 @@ function createErrorMessage() {
       if (inputField) {
         // Apply red border for fields with errors
         if (emptyInputs.includes(index + 1) || nullIndices.includes(index + 1)) {
-          inputField.style.border = '2px solid red';
+          inputField.setAttribute("aria-invalid", "true");
         }
       }
     });
@@ -358,10 +384,10 @@ function createErrorMessage() {
     const firstInputField = document.getElementById(firstIndex - 1); // Adjust for 0-based index
     const secondInputField = document.getElementById(secondIndex - 1); // Adjust for 0-based index
     if (firstInputField) {
-      firstInputField.style.border = '2px solid #FF9D2F'; // Apply yellow border for duplicates
+      firstInputField.style.border = '1px solid #FF9D2F'; // Apply yellow border for duplicates
     }
     if (secondInputField) {
-      secondInputField.style.border = '2px solid #FF9D2F'; // Apply yellow border for duplicates
+      secondInputField.style.border = '1px solid #FF9D2F'; // Apply yellow border for duplicates
     }
   });
 }
@@ -422,55 +448,57 @@ function handleButtonClick(buttonNumber) {
 
 
 
+// Map of select values to button text
+const buttonTextMap = {
+  PPTX: 'Download PPTX',
+  PDF: 'Download PDF',
+  IMG: 'Download IMG'
+};
+
+// Function to handle the select change logic
 function handleSelectChange(selectElement) {
-  const selectedValue = selectElement.value;
-  // Handle select change logic here
-  switch(selectedValue) {
-    case 'default':
-      document.querySelector(".GenerateBtn").innerHTML= 'Download PPTX';
-        break;
-    case 'pdf':
-      document.querySelector(".GenerateBtn").innerHTML= 'Download PDF';
-        break;
-    case 'img':
-      document.querySelector(".GenerateBtn").innerHTML= 'Download IMG';
-      break;
+  const selectedValue = selectElement.value; // Get the selected value
+  const generateBtn = document.querySelector("#generateBtn"); // Get the button
 
+  // Update button text based on the selected value using the map
+  generateBtn.innerHTML = buttonTextMap[selectedValue] || 'Download PPTX';
+}
+
+// Add an event listener to the select element
+const outputFormatSelect = document.getElementById('outputFormat');
+outputFormatSelect.addEventListener('change', function () {
+  handleSelectChange(this); // Pass the select element to the function
+});
+
+function setupThemeToggle(buttonId) {
+  // Get the HTML element and the toggle button
+  const htmlElement = document.documentElement;
+  const themeToggleButton = document.getElementById(buttonId);
+
+  if (!themeToggleButton) {
+      console.error(`Button with ID "${buttonId}" not found.`);
+      return;
   }
+
+  // Check the current theme in localStorage (optional for persistence)
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+      htmlElement.setAttribute('data-theme', savedTheme);
+  }
+
+  // Event listener for theme toggle
+  themeToggleButton.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'white' : 'dark';
+
+      // Set the new theme on the <html> element
+      htmlElement.setAttribute('data-theme', newTheme);
+
+      // Save the new theme in localStorage (optional for persistence)
+      localStorage.setItem('theme', newTheme);
+  });
 }
 
-function addLongPressListener(element, onLongPress, delay = 500) {
-  let timer;
-
-  const startTimer = () => {
-    timer = setTimeout(() => {
-      onLongPress();
-      timer = null; // Reset timer
-    }, delay);
-  };
-
-  const clearTimer = () => {
-    if (timer) {
-      clearTimeout(timer);
-      timer = null;
-    }
-  };
-
-  // Add event listeners for desktop
-  element.addEventListener('mousedown', startTimer);
-  element.addEventListener('mouseup', clearTimer);
-  element.addEventListener('mouseleave', clearTimer);
-
-  // Add event listeners for mobile
-  element.addEventListener('touchstart', startTimer);
-  element.addEventListener('touchend', clearTimer);
-  element.addEventListener('touchcancel', clearTimer);
-}
-
-const button = document.querySelector(".GenerateBtn");
-addLongPressListener(button, () => {
-  createFullOutput();
-}, 700); // 700ms long press
 
 
 
@@ -483,7 +511,8 @@ window.onload = function() {
   dataInpSngs = []; 
 
   initializeEventListeners(); // Initialize event listeners for existing inputs
-  
+  setupThemeToggle('theme-toggle');
+
 
 };
 

@@ -7,7 +7,7 @@ function downloadImage(url, filename) {
     document.body.removeChild(link);
   }
   
-  async function downloadSongImg() {
+  async function createSongImg() {
     for(let i=0;i<dataInpSngs.length;i++){
       if (dataInpSngs[i] != null && dataInpSngs[i] != undefined) {
         await addImageSng(dataInpSngs[i]);
@@ -134,7 +134,7 @@ function downloadImage(url, filename) {
   }
   
   
-  async function downloadStandardImg() {
+  async function createStandardImg() {
     let pathVorlage = getPathForTemplate();
     let date = dateInput();
     const texts = [

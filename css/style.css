@@ -1,0 +1,79 @@
+@font-face {
+    font-family: 'Noto Sans Tamil'; /* Name for the font */
+    src: url('/fonts/NotoSansTamil-Regular.ttf') format('truetype'); /* Path to your .ttf file */
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+        
+        /* Custom styles */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .btnGen {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .downloadMessage {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+
+        .error-border {
+            border: 2px solid red;
+        }
+        
+        /* Error Message Styles */
+        #error-message {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        #warning-message {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        .red {
+            color: red;
+        }
+        
+        .yellow {
+            color: #FF9D2F;
+        }
+        .inputSngs input {
+            font-family: 'Noto Sans Tamil';
+            font-weight: normal;
+            font-style: normal; 
+        }
+
+        .logo {
+            height: 50px;
+        }        
+        
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }

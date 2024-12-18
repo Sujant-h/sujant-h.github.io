@@ -1,89 +1,123 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>LyricCreator </title>
+    <title>LyricCreator</title>
     <meta name="description" content="Eine intuitive App, die automatisch PowerPoint-Folien, PDF Dateien oder Bilder aus den gewählten Liednummern erstellt.">
     <link rel="icon" type="image/png" href="/icons/favicon.png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/pico.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
 </head>
 <body>
     <canvas id="canvas" style="display:none;"></canvas>
-    <h1>
-        <a href="" onclick="event.preventDefault(); location.reload();">
-            <img src="icons/icon-192x192.png" alt="Logo" class="logo">
-         
-           LyricCreator
-        </a>
-    </h1>
-    <div class="container">
-        <div class="header">
-            <div class="inputSection">
-                <div class="buttonTop">
-                    <button id="button1" class="button active" onclick="handleButtonClick(1)">Gottesdienst</button>
-                    <button id="button2" class="button" onclick="handleButtonClick(2)">Nur Lieder</button>
-                    <select id="select3" class="button" onchange="handleSelectChange(this)">
-                        <option value="default" selected>PPTX</option>
-                        <option value="pdf">PDF</option>
-                        <option value="img">IMG</option>
-                    </select>
-                </div>
-                <form>
-                    <div class="input-header">
-                        <label for="vorlageNb"></label>
-                        <select name="vorlage" id="vorlageNb">
+    <main class="container">
+        <header>
+            <h1>
+                <a href="" onclick="event.preventDefault(); location.reload();" class="logo" >
+                    <img src="icons/icon-192x192.png" alt="Logo" class="logo">
+                    <span>LyricCreator</span>
+                </a>
+            </h1>
+        </header>
+        
+
+        <section>
+            <form>
+                <div class="grid">
+                    <!-- Mode selection -->
+                    <div>
+                        <label for="mode">Modus</label>
+                        <select name="mode" id="mode" required onchange="onModeChange()">
+                            <option value="Gottesdienst">Gottesdienst</option>
+                            <option value="Nur Lieder">Nur Lieder</option>
+                            <option value="Alle Lieder">Alle Lieder</option>
+                        </select>
+                    </div>
+                    
+
+                    <!-- Output format selection -->
+                    <div>
+                        <label for="outputFormat">Ausgabeformat</label>
+                        <select name="outputFormat" id="outputFormat" on required>
+                            <option>PPTX</option>
+                            <option>PDF</option>
+                            <option>IMG</option>
+                        </select>
+                    </div>
+
+                    <!-- Vorlage selection -->
+                    <div>
+                        <label for="vorlage">Vorlage</label>
+                        <select name="vorlage" id="vorlage" required>
                             <option value="1">1. Vorlage</option>
-                            <option value="2">2. Vorlage</option>
+                            <option value="2"> 2. Vorlage</option>
                             <option value="3">3. Vorlage</option>
                         </select>
-                        <label for="dateInput">Datum</label>
-                        <input type="date" id="dateInput" name="dateInput">
-                        <br>
                     </div>
-                    <div class="inputSngs">
+
+                    <!-- Date input -->
+                    <div>
+                        <label for="dateInput">Datum</label>
+                        <input type="date" id="dateInput" name="date" required>
+                    </div>
+                </div>
+
+                <!-- Song inputs -->
+                <div class="inputSngs">
+                    <h2>Lieder</h2>
+                    <div>
                         <label for="0">Lied 1</label>
-                        <input type="text" id="0" placeholder="Lied Nummer eingeben" autocomplete="off">
-                        <br>
+                        <input type="text" id="0"   aria-invalid="" placeholder="Lied Nummer eingeben" autocomplete="off">
+                    </div>
+                    <div>
                         <label for="1">Lied 2</label>
-                        <input type="text" id="1" placeholder="Lied Nummer eingeben" autocomplete="off">
-                        <br>
+                        <input type="text" id="1" aria-invalid="" placeholder="Lied Nummer eingeben" autocomplete="off">
+                    </div>
+                    <div>
                         <label for="2">Lied 3</label>
                         <input type="text" id="2" placeholder="Lied Nummer eingeben" autocomplete="off">
-                        <br>
+                    </div>
+                    <div>
                         <label for="3">Lied 4</label>
                         <input type="text" id="3" placeholder="Lied Nummer eingeben" autocomplete="off">
-                        <br>
+                    </div>
+                    <div>
                         <label for="4">Lied 5</label>
                         <input type="text" id="4" placeholder="Lied Nummer eingeben" autocomplete="off">
-                        <br>
-                        <div id="songInputs">
-                            <!-- Song inputs will be added here dynamically -->
-                        </div>
                     </div>
-                </form>
-                <div id="error-message"></div> <!-- Area to display error messages -->
+                    <div id="songInputs">
+                        <!-- Additional song inputs will be added dynamically -->
+                    </div>
+                </div>
+
+                <div id="error-message"></div>
                 <div id="warning-message"></div>
-                <div class="button-container">
-                    <button class="shuffleBtn" onclick="addInputFields()">
-                        <img src="icons/plus.svg" alt="Plus" class="plusIcon">
-                    </button>
-                    
-                    <button class="shuffleBtn" onclick="randomSngs()">
-                        <img src="icons/shuffle.svg" alt="Shuffle" class="shuffleIcon">
-                      </button>
-                </div>
                 <br>
-                <div class="btnGen">
-                    <button class="GenerateBtn" onclick="main()">Download PPTX</button>
+
+                <!-- Buttons -->
+                <div class="button-container">
+                    <button type="button" class="secondary" onclick="addInputFields()">Lied hinzufügen</button>
+                    <button type="button" class="secondary" onclick="randomSngs()">Zufallslieder</button>
                 </div>
-                <div class="downloadMessage" style="display: none;">Download started</div>
-            </div>
-        </div>
-    </div>
-    	
+
+                <div class="btnGen">
+                    <button type="button" class="primary" onclick="createOutput()" id="generateBtn" aria-busy="false">Download PPTX</button>
+                </div>
+
+            </form>
+        </section>
+
+
+    
+
+    </main>
+
     <script src="libs/pptxgen.bundle.js"></script>
     <script src="libs/jspdf.umd.min.js"></script>
     <script src="libs/jszip.min.js"></script>
@@ -91,10 +125,6 @@
     <script src="js/pptx.js"></script>
     <script src="js/pdf.js"></script>
     <script src="js/image.js"></script>
-
-
-
-
 
     <script>
         if ('serviceWorker' in navigator) {
@@ -106,7 +136,6 @@
                 });
             });
         }
-        </script>
-        
+    </script>
 </body>
 </html>

@@ -4,7 +4,8 @@ const CACHE_NAME = 'v2';
 const urlsToCache = [
     '/',
     'index.html',
-    'styles.css',
+    'css/style.css',
+    'css/style.css',
     'js/index.js',
     'js/pptx.js',
     'js/pdf.js',
@@ -33,11 +34,8 @@ const urlsToCache = [
     'icons/shuffle.svg',
     'screenshots/desktop.png',
     'screenshots/mobile.png',
-    'fonts/subset-NotoSansTamil-Regular.woff',
-    'fonts/subset-NotoSansTamil-Regular.woff2',
-    'fonts/subset-NotoSansTamil-Bold.woff',
-    'fonts/subset-NotoSansTamil-Bold.woff2'
-];
+    'fonts/NotoSansTamil-Regular.ttf'
+]
 
 // Installing Service Worker
 self.addEventListener('install', event => {
