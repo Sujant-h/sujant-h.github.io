@@ -59,8 +59,24 @@ function getGenBtn() {
             const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Months are zero-based
             const year = String(dateObj.getFullYear());
             return `${day}.${month}.${year}`;
+            
         }
 
+  }
+  async function genBtn() {
+    try {
+      // Call createErrorMessage, which might throw an error
+      await createErrorMessage(); 
+  
+      // Proceed with the next function only if no error was thrown
+      await createOutput(); 
+    } catch (error) {
+      // Log the error details for debugging (including stack trace)
+      console.error('Error occurred in genBtn:', error);
+    
+      // Optionally, re-throw the error if you want it to propagate further
+      // throw error;
+    }
   }
 
   async function createOutput() {
@@ -144,6 +160,7 @@ function updateInputsBasedOnMode(mode) {
       songInputs.forEach(input => input.setAttribute('disabled', 'true'));
       dateInput.setAttribute('disabled', 'true');
       vorlageInput.setAttribute('disabled', 'true');
+      clearErrorMessage();
   } else if (mode === 'Nur Lieder') {
       // Disable date input and vorlage input
       vorlageInput.setAttribute('disabled', 'true');
@@ -281,6 +298,14 @@ function initializeEventListeners() {
   
 }
 
+function clearErrorMessage() {
+  const errorMessageDiv = document.getElementById('error-message');
+  const warningMessageDiv = document.getElementById('warning-message');
+  
+  errorMessageDiv.innerHTML = ''; // Clear previous error messages
+  warningMessageDiv.innerHTML = ''; // Clear previous warning messages
+}
+
 
 function createErrorMessage() {
   const errorMessageDiv = document.getElementById('error-message');
@@ -390,6 +415,10 @@ dataInpSngs.forEach((item, index) => {
       secondInputField.style.border = '1px solid #FF9D2F'; // Apply yellow border for duplicates
     }
   });
+    // Throw an exception if there are errors
+    if (messages.length > 0) {
+      throw new Error(messages.join(' ')); // Combine messages and throw as an exception
+    }
 }
 
 
@@ -511,7 +540,6 @@ window.onload = function() {
   dataInpSngs = []; 
 
   initializeEventListeners(); // Initialize event listeners for existing inputs
-  setupThemeToggle('theme-toggle');
 
 
 };
