@@ -530,35 +530,6 @@ outputFormatSelect.addEventListener('change', function () {
   handleSelectChange(this); // Pass the select element to the function
 });
 
-function setupThemeToggle(buttonId) {
-  // Get the HTML element and the toggle button
-  const htmlElement = document.documentElement;
-  const themeToggleButton = document.getElementById(buttonId);
-
-  if (!themeToggleButton) {
-      console.error(`Button with ID "${buttonId}" not found.`);
-      return;
-  }
-
-  // Check the current theme in localStorage (optional for persistence)
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-      htmlElement.setAttribute('data-theme', savedTheme);
-  }
-
-  // Event listener for theme toggle
-  themeToggleButton.addEventListener('click', () => {
-      const currentTheme = htmlElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'white' : 'dark';
-
-      // Set the new theme on the <html> element
-      htmlElement.setAttribute('data-theme', newTheme);
-
-      // Save the new theme in localStorage (optional for persistence)
-      localStorage.setItem('theme', newTheme);
-  });
-}
-
 
 
 
