@@ -65,9 +65,11 @@ function getGenBtn() {
   }
   async function genBtn() {
     try {
+      let mode = getMode();
       // Call createErrorMessage, which might throw an error
-      await createErrorMessage(); 
-  
+      if(mode!=="Alle Lieder") {
+        await checkDataInput();
+      }
       // Proceed with the next function only if no error was thrown
       await createOutput(); 
     } catch (error) {
@@ -84,6 +86,8 @@ function getGenBtn() {
     button.setAttribute('aria-busy', 'true');
     const fileformat = getFileformat();
     const mode = getMode();
+
+
 
     const actions = {
         PPTX: {
@@ -191,7 +195,12 @@ function randomSngs(){
     dataInpSngs[i] = enableAutocomplete(inputElements[i].value);
 
   });
-  createErrorMessage();
+      try {
+        createErrorMessage();
+      } catch (error) {
+        console.error('Error occurred in genBtn:', error);
+
+      }
 
 }
 
@@ -239,8 +248,12 @@ function enableAutocomplete(inpVal) {
 
 
   function handleInputFocus(event) {
-    createErrorMessage();
+    try {
+      createErrorMessage();
+    } catch (error) {
+      console.error('Error occurred in genBtn:', error);
 
+    }
       
   }
 
@@ -268,7 +281,12 @@ function enableAutocomplete(inpVal) {
       } else {
         //document.getElementById(inputId).style.border = '2px solid red';
       }
-              createErrorMessage();
+      try {
+        createErrorMessage();
+      } catch (error) {
+        console.error('Error occurred in genBtn:', error);
+
+      }
 
   }
 
@@ -421,6 +439,19 @@ dataInpSngs.forEach((item, index) => {
     }
 }
 
+async function checkDataInput() {
+  if (dataInpSngs.length === 0) {
+      throw new Error("The data input array is empty.");
+  }
+
+  for (let item of dataInpSngs) {
+      if (item === null || item === "") {
+          throw new Error(`Invalid item found: ${item}. All items must be non-null and non-empty.`);
+      }
+  }
+
+  console.log("All items are valid.");
+}
 
 
 function addInputFields() {
