@@ -1,4 +1,5 @@
 function downloadImage(url, filename) {
+  console.log("downloadImage: "+url, filename)
     const link = document.createElement('a');
     link.href = url;
     link.download = filename;
@@ -17,23 +18,41 @@ function downloadImage(url, filename) {
   }
   
   async function loadImage(url) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error(`Failed to load image from ${url}`));
-      img.src = url;
-    });
-  }
-  
+    try {
+        console.log(`Loading image from: ${url}`); // Log the URL
+        if (!url || typeof url !== 'string') {
+            throw new Error('Invalid URL provided to loadImage');
+        }
+
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'Anonymous'; // Handle CORS
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error(`Failed to load image from ${url}`));
+            img.src = url;
+        });
+    } catch (error) {
+        console.error('Error in loadImage:', error);
+        throw error; // Re-throw the error for the caller to handle
+    }
+}
+
+
+
   
   async function addTextToImage(path, texts = []) {
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
+    console.log("addTextToImage: "+path, texts)
     const img = await loadImage(path);
   
     canvas.width = img.width;
     canvas.height = img.height;
+  
+    if (canvas.width === 0 || canvas.height === 0) {
+      console.error('Canvas dimensions are invalid:', canvas.width, canvas.height);
+      throw new Error('Canvas is not properly initialized');
+  }
   
     context.drawImage(img, 0, 0);
     context.font = 'bold 160px Calibri';
@@ -147,7 +166,7 @@ function downloadImage(url, filename) {
     const modifiedImageUrl = await addTextToImage(pathVorlage + "image1.jpg", texts);
     const modifiedImageUrlLogo = await addLogoToImage(modifiedImageUrl, "images/logo1.png", 632, 103, 1);
     zip.file("1.Bild.png", await fetch(modifiedImageUrlLogo).then(res => res.blob()));
-  
+
     const modifiedImageUrl1 = await addTextToImage(pathVorlage + "image2.jpg", []);
     zip.file("2.Bild.png", await fetch(modifiedImageUrl1).then(res => res.blob()));
   
