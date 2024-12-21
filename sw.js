@@ -1,6 +1,6 @@
-const CACHE_NAME = 'LyricCreatorCache'; // Cache name stays the same
-const CACHE_VERSION = 'v3'; // Version used to compare with the version in version.json
-const VERSION_URL = './version.json'; // URL to check the app version
+const CACHE_VERSION = 'v3'; // Current cache version
+const CACHE_NAME = `LyricCreatorCache-${CACHE_VERSION}`; // Include version in cache name
+const VERSION_URL = './version.json'; // URL for checking app version
 
 // URLs to cache upfront
 const urlsToCache = [
@@ -39,79 +39,89 @@ const urlsToCache = [
     'fonts/NotoSansTamil-Regular.ttf'
 ];
 
-// Installing Service Worker
-self.addEventListener('install', event => {
+// Install Event
+self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
-            return cache.addAll(urlsToCache)
-                .then(() => fetch('./data/data.json'))
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
+        (async () => {
+            const cache = await caches.open(CACHE_NAME);
+
+            try {
+                // Pre-cache static assets
+                await cache.addAll(urlsToCache);
+
+                // Fetch `data.json` for dynamic image URLs
+                const response = await fetch('./data/data.json');
+                if (!response.ok) throw new Error('Failed to fetch data.json');
+
+                const items = await response.json();
+                const imageUrls = items.flatMap(item =>
+                    item.filename.filter(f => f).map(f => `images/slides/${f}.png`)
+                );
+
+                // Cache dynamic image URLs with resilience
+                const results = await Promise.allSettled(
+                    imageUrls.map(url => cache.add(url))
+                );
+
+                // Log any failures
+                results.forEach((result, index) => {
+                    if (result.status === 'rejected') {
+                        console.warn(`Failed to cache: ${imageUrls[index]}`, result.reason);
                     }
-                    return response.json();
-                })
-                .then(items => {
-                    const imageUrls = items.flatMap(item => item.filename.filter(f => f).map(f => `images/slides/${f}.png`));
-                    return cache.addAll(imageUrls);
-                })
-                .catch(error => {
-                    console.error('Failed to fetch data.json or cache additional images:', error);
                 });
-        })
+            } catch (error) {
+                console.error('Error during installation:', error);
+            }
+        })()
     );
 });
 
-// Activating Service Worker and Cleaning Up Old Caches
-self.addEventListener('activate', event => {
+
+// Activate Event
+self.addEventListener('activate', (event) => {
     event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return checkForUpdates().then(isNewVersion => {
-                if (isNewVersion) {
-                    // If a new version is detected, delete the old cache and reinstall the files
-                    console.log('New version detected. Deleting old cache and updating cache...');
-                    return caches.delete(CACHE_NAME); // Delete old cache
-                }
-                return Promise.resolve();
-            });
-        }).then(() => {
-            // After deleting old caches, force the new service worker to activate
-            self.skipWaiting(); // Forces the new service worker to activate immediately
-        })
-    );
+        (async () => {
+            const isNewVersion = await checkForUpdates();
+            const cacheNames = await caches.keys();
 
-    // Claim the clients to ensure the new service worker takes control immediately
-    self.clients.claim();
+            // Delete old caches if a new version is detected
+            if (isNewVersion) {
+                console.log('New version detected. Updating cache...');
+                await Promise.all(
+                    cacheNames
+                        .filter((name) => name.startsWith('LyricCreatorCache-') && name !== CACHE_NAME)
+                        .map((name) => caches.delete(name))
+                );
+            }
+
+            // Force activation of the new service worker
+            await self.clients.claim();
+        })()
+    );
 });
 
-// Fetching from Cache
-self.addEventListener('fetch', event => {
+// Fetch Event
+self.addEventListener('fetch', (event) => {
     event.respondWith(
-        caches.match(event.request).then(response => {
+        caches.match(event.request).then((response) => {
             return response || fetch(event.request);
         })
     );
 });
 
-// Check for updates
-function checkForUpdates() {
-    return fetch(VERSION_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch version information');
-            }
-            return response.json();
-        })
-        .then(versionData => {
-            // Compare the version from version.json with the current CACHE_VERSION
-            if (versionData.version !== CACHE_VERSION) {
-                console.log('New version detected:', versionData.version);
-                return true; // New version detected
-            }
-            return false; // No update needed
-        })
-        .catch(error => {
-            console.error('Error checking for updates:', error);
-            return false; // Return false if there was an error fetching version
-        });
+// Check for Updates
+async function checkForUpdates() {
+    try {
+        const response = await fetch(VERSION_URL);
+        if (!response.ok) throw new Error('Failed to fetch version.json');
+
+        const versionData = await response.json();
+        if (versionData.version !== CACHE_VERSION) {
+            console.log('New version detected:', versionData.version);
+            return true;
+        }
+    } catch (error) {
+        console.error('Error checking for updates:', error);
+    }
+    return false;
 }
